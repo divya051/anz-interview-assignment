@@ -49,7 +49,7 @@ Root Token: hvs.XXXXXXXXXXXXXXXX
 
 ```bash
 export VAULT_ADDR='http://127.0.0.1:8200'
-export VAULT_TOKEN='hvs.XXXXXXXXXXXXXXXX'   # replace with your token
+export VAULT_TOKEN='hvs.XXXXXXXXXXXXXXXX'  
 ```
 
 Verify Vault is running and unsealed:
@@ -74,9 +74,6 @@ Cluster Name    vault-cluster-d1c07dbc
 Cluster ID      c627f564-95fb-dc85-33fc-6e0c64f711c8
 HA Enabled      false
 ```
-
-**What "Sealed" means:**
-A sealed Vault cannot read or write any secrets. In dev mode, Vault auto-unseals on startup. In production, unsealing requires a quorum of unseal key holders (Shamir's Secret Sharing) — no single person can unseal Vault alone.
 
 ---
 
@@ -104,11 +101,6 @@ vault auth enable approle
 ```
 
 ![alt text](image-3.png)
-
-**What is AppRole?**
-AppRole is an auth method designed for machine-to-machine authentication (applications, CI/CD pipelines, services). Instead of a username/password, it uses a `RoleID` (like a username) and a `SecretID` (like a password). Neither alone is enough — both are required, and they're delivered to the application via separate channels (dual control).
-
-This is preferred over static tokens for applications because SecretIDs can be rotated, scoped, and expire automatically.
 
 Verify it's enabled:
 
@@ -156,7 +148,7 @@ vault kv get -field=db_password mykv/myapp/config
 
 ---
 
-## Step 7 — Create new version of the Secret (Added to check functionality - for fun :)
+## Step 8 — Create new version of the Secret (Added to check functionality - for fun :))
 
 ```bash
 vault kv put mykv/myapp/config db_password="supersecret2" 
@@ -164,6 +156,3 @@ vault kv get -field=db_password mykv/myapp/config
 ```
 
 ![alt text](image-7.png)
-
-
-
