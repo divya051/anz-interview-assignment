@@ -11,8 +11,6 @@ This task demonstrates setting up HashiCorp Vault locally using Docker, initiali
 - Docker installed and running
 - Vault CLI installed
 
----
-
 ## Step 1 — Start Vault in Docker
 
 ```bash
@@ -25,12 +23,11 @@ docker run --cap-add=IPC_LOCK -d \
 ![alt text](image-1.png)
 
 **Why `--cap-add=IPC_LOCK`?**
-This grants Vault permission to lock memory pages, preventing secrets from being swapped to disk unencrypted. In production, this is critical.
+This grants Vault permission to lock memory pages, preventing secrets from being swapped to disk unencrypted. 
 
 **Why Docker?**
 In production, Vault always runs containerized. Using Docker locally mirrors that pattern rather than running a raw binary.
 
----
 
 ## Step 2 — Retrieve the Root Token
 
@@ -43,7 +40,6 @@ Expected output:
 Root Token: hvs.XXXXXXXXXXXXXXXX
 ```
 
----
 
 ## Step 3 — Configure the Environment variables & CLI
 
@@ -75,8 +71,6 @@ Cluster ID      c627f564-95fb-dc85-33fc-6e0c64f711c8
 HA Enabled      false
 ```
 
----
-
 ## Step 4 — Enable KV v2 Secrets Engine
 
 ```bash
@@ -84,15 +78,13 @@ vault secrets enable -path=mykv kv-v2
 ```
 ![alt text](image.png)
 
-Verify it's enabled:
+Verify if it is enabled:
 
 ```bash
 vault secrets list
 ```
 
 ![alt text](image-2.png)
-
----
 
 ## Step 5 — Enable AppRole Auth Method
 
@@ -102,7 +94,7 @@ vault auth enable approle
 
 ![alt text](image-3.png)
 
-Verify it's enabled:
+Verify if it is enabled:
 
 ```bash
 vault auth list
@@ -110,7 +102,6 @@ vault auth list
 
 ![alt text](image-4.png)
 
----
 
 ## Step 6 — Store a Secret
 
@@ -148,7 +139,7 @@ vault kv get -field=db_password mykv/myapp/config
 
 ---
 
-## Step 8 — Create new version of the Secret (Added to check functionality - for fun :))
+## Step 8 — Create new version of the Secret (Added to check functionality)
 
 ```bash
 vault kv put mykv/myapp/config db_password="supersecret2" 

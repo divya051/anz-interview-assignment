@@ -36,15 +36,13 @@ This solution demonstrates how an application running on an EC2 instance can sec
 
 # How IAM Roles Work
 
-1. An IAM Role is created with specific permissions that are attached as JSOn policies.
+1. An IAM Role is created with specific permissions that are attached as JSON policies.
 2. The IAM Role is attached to the EC2 instance.
 3. AWS automatically provides temporary credentials to the EC2 instance through the Instance Metadata Service (IMDS).
 4. Applications use AWS SDKs such as boto3 to access AWS services.
 5. Credentials are automatically rotated by AWS.
 
 This way the application never needs to sotre AWS credentials.
-
----
 
 # Why IAM Roles Are Preferred Over Static Secrets
 
@@ -55,7 +53,6 @@ Hardcoded AWS credentials are insecure because:
 * secrets may leak into GitHub repositories if not careful
 * credentials are long-lived
 * manual rotation is difficult
-
 
 ## Benefits of IAM Roles
 
@@ -78,13 +75,10 @@ Example:
 * allow reading objects from one S3 bucket
 * deny all unnecessary actions
 
----
-
 ## 2. Credential Rotation
 
-IAM Roles use temporary AWS STS credentials that are automatically rotated.
-
-This reduces the impact of credential compromise.
+IAM Roles use temporary AWS STS credentials that are automatically rotated. Temporary credentials are refreshed in the background shortly before they expire, ensuring zero downtime.
+This reduces the impact of credential compromise. Maximum session duration for role assumption is typically 1 hour by default, but can be configured up to 12 hours.
 
 
 # Sample IAM Policy to attach to EC2
@@ -108,9 +102,7 @@ File: `iam-policy.json`
 }
 ```
 
-This policy allows reading objects from a specific S3 bucket only and follows the principle of least privilege
-
----
+This policy allows reading objects from a specific S3 bucket only and follows the principle of least privilege.
 
 # Example Deployment Steps
 
@@ -122,13 +114,10 @@ This policy allows reading objects from a specific S3 bucket only and follows th
 6. Run the application.
 7. Verify that AWS S3 bucket objects are accessible without access keys.
 
----
 
 # Expected Outcome
 
 The application successfully accesses the object using temporary IAM Role credentials without storing AWS access keys in code or configuration files.
-
----
 
 # Security Best Practices Followed
 
@@ -137,5 +126,3 @@ The application successfully accesses the object using temporary IAM Role creden
 * Temporary credentials via IAM Role
 * Automatic credential rotation
 * Restricted permissions
-* Secure metadata access using IMDSv2
-

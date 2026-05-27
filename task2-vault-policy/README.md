@@ -4,7 +4,7 @@
 
 This task demonstrates creating a read-only Vault policy, mapping it to an AppRole auth role, and explains key Vault IAM concepts including token types, TTL, audit logging, and secret rotation.
 
-> **Prerequisites:** Vault must be running from Task 1 with KV v2 enabled at `mykv/` .
+**Prerequisites:** Vault must be running from Task 1 with KV v2 enabled at `mykv/` .
 
 ---
 
@@ -18,8 +18,7 @@ path "mykv/data/myapp/*" {
 }
 ```
 
-**`mykv/data/myapp/*`?**
-Vault stores it at `mykv/data/myapp/config` internally. Policies must use the real API path, not the CLI shorthand. The `*` wildcard covers all secrets under `myapp/`.
+Vault stores data at `mykv/data/myapp/config` internally. Policies must use the real API path. The `*` wildcard covers all secrets under `myapp/`.
 
 **Why only `read` and `list`?**
 This follows the principle of least privilege — the application can read secrets it needs but cannot create, modify, or delete them. 
@@ -156,13 +155,13 @@ vault audit enable file file_path=/vault/logs/audit.log
 - Prove compliance during audits
 - Trace exactly which token accessed which secret and when
 
-> In production, audit logs should be shipped to a SIEM (e.g. Splunk, Datadog) in real time. 
+In production, audit logs should be shipped to a SIEM (e.g. Splunk, Datadog) in real time. 
 
 ---
 
 ### Secret Rotation Approach
 
-Secret rotation is the process of replacing an old secret with a new one before it can be exploited. Auto-rotating and Dynamic Secrets are different strategies for accomplishing the same goal: automating the management of a credential in order to scope down its lifetime and blast radius.
+Secret rotation is the process of replacing an old secret with a new one before it can be exploited. Auto-rotating and Dynamic Secrets are different strategies for accomplishing the same goal.
 
 **Auto Rotating:**
 - Rotated on a schedule in a background job
